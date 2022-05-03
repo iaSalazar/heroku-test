@@ -2,6 +2,17 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource
+import os
+import bmemcached
+
+servers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
+user = os.environ.get('MEMCACHIER_USERNAME', '')
+passw = os.environ.get('MEMCACHIER_PASSWORD', '')
+
+mc = bmemcached.Client(servers, username=user, password=passw)
+
+mc.set("foo", "bar")
+print(mc.get("foo"))
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
