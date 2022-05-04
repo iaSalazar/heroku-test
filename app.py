@@ -18,7 +18,7 @@ print(mc.get("foo"))
 
 sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
 from_email = Email("cloud5202010@gmail.com")
-to_email = To(email)
+to_email = To('ivanarturo9620@gmail.com')
 subject = 'Thanks for participating with your voice'
 content = Content("text/plain", 'Hi from heroku')
 mail = Mail(from_email, to_email, subject, content)
