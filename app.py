@@ -4,7 +4,9 @@ from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource
 import os
 import bmemcached
-
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
 servers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
 user = os.environ.get('MEMCACHIER_USERNAME', '')
 passw = os.environ.get('MEMCACHIER_PASSWORD', '')
@@ -13,6 +15,19 @@ mc = bmemcached.Client(servers, username=user, password=passw)
 
 mc.set("foo", "bar")
 print(mc.get("foo"))
+
+sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+from_email = Email("cloud5202010@gmail.com")
+to_email = To(email)
+subject = 'Thanks for participating with your voice'
+content = Content("text/plain", 'Hi from heroku')
+mail = Mail(from_email, to_email, subject, content)
+response = sg.client.mail.send.post(request_body=mail.get())
+            # print(response.status_code)
+            # print(response.body)
+            # print(response.headers)
+print("Email sent successfully")
+        
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
